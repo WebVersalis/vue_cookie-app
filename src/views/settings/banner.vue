@@ -3,10 +3,7 @@
     <router-link to="/">
       <button class="secondary icon-arrow-left"></button>
     </router-link>
-
-    <router-link to="/" style="margin-left: 1rem;" @click="save">
-      <button>Save</button>
-    </router-link>
+    <button @click="save">Save</button>
   </section>
   <!-- mandatory -->
   <section>
@@ -154,8 +151,9 @@ export default defineComponent({
         ...mergeTranlsate
       };
       SetupService.save(setup.value, "testcookieweb", selectedLocale.value.id).then(value => {
+        setupStore.setPageLoading(false);
       }).catch(reason => {
-        console.log(reason)
+        setupStore.setPageLoading(false);
       }).finally(() => {
         setupStore.setPageLoading(false);
       });

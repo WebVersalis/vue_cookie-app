@@ -14,7 +14,7 @@ class ScriptTagService {
         shop = myArray[0];
         return clientAPI(baseurl).post('/api/script', {
             'shop': shop,
-            'src': 'https://dry-tramp.surge.sh/build/bundle.js'
+            'src': 'https://cookie.uat.testversalis.net/build/bundle.js'
         });
     }
 
@@ -24,7 +24,7 @@ class ScriptTagService {
         shop = myArray[0];
         return clientAPI(baseurl).put('/api/script/' + shop, {
             'shop': shop,
-            'src': 'https://dry-tramp.surge.sh/build/bundle.js'
+            'src': 'https://cookie.uat.testversalis.net/build/bundle.js'
         });
     }
 

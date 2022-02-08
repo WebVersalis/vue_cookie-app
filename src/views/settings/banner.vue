@@ -4,9 +4,7 @@
       <button class="secondary icon-arrow-left"></button>
     </router-link>
 
-    <router-link to="/" style="margin-left: 1rem;" @click="save">
-      <button>Save</button>
-    </router-link>
+    <button @click="save">Save</button>
   </section>
   <!-- mandatory -->
   <section>

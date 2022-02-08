@@ -1,7 +1,4 @@
 <template>
-  <enabled v-if="setup.enabled"></enabled>
-  <disabled v-if="!setup.enabled"></disabled>
-
   <div style="--top-bar-background:#00848e; --top-bar-color:#f9fafb; --top-bar-background-lighter:#1d9ba4;">
     <div class="Polaris-Page">
       <div class="Polaris-Page-Header Polaris-Page-Header--hasNavigation Polaris-Page-Header--hasActionMenu">
@@ -9,8 +6,17 @@
           <div class="app-content">
             <main role="main">
               <div class="Polaris-Layout__AnnotatedSection">
+                <div class="Polaris-Stack Polaris-Stack--distributionTrailing" style="margin-bottom: 10px">
+                  <div class="Polaris-Stack__Item">
+                    <button @click="save" class="Polaris-Button Polaris-Button--primary" type="button"><span
+                        class="Polaris-Button__Content"><span
+                        class="Polaris-Button__Text">Save</span></span></button>
+                  </div>
+                </div>
+                <enabled v-if="setup.enabled"></enabled>
                 <!-- state enabled -->
                 <br>
+                <disabled v-if="!setup.enabled"></disabled>
                 <!-- state disabled -->
                 <div class="Polaris-Page__Content" style="margin-bottom: -4rem;" v-if="setup">
                   <div class="Polaris-Layout">
@@ -161,6 +167,7 @@ import {setup} from "../model";
 import SetupService from "../Service/SetupService";
 import disabled from "@/components/disabled.vue";
 import enabled from "@/components/enabled.vue";
+import {useSetupStore} from "../store/modules/setup";
 
 export default defineComponent({
   components: {
@@ -169,15 +176,29 @@ export default defineComponent({
   },
   setup() {
     const setup = ref<setup>({} as setup);
+    const setupStore = useSetupStore();
+
+    const save = () => {
+      setupStore.setPageLoading(true);
+      SetupService.save(setup.value, "testcookieweb").then(value => {
+        setupStore.setPageLoading(false);
+      }).catch(reason => {
+        console.log(reason)
+      });
+    }
 
     onMounted(async () => {
+      setupStore.setPageLoading(true);
       await SetupService.getInfo("testcookieweb").then(value => {
+        setupStore.setPageLoading(false);
         setup.value = value.data;
+      }).catch(reason => {
+        setupStore.setPageLoading(false);
       });
     });
 
     return {
-      setup
+      setup, save
     }
   }
 })

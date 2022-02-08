@@ -32,14 +32,14 @@
                         class="Polaris-RadioButton"><input id="RadioButton767" name="ChoiceList193" type="radio"
                                                            class="Polaris-RadioButton__Input"
                                                            aria-describedby="RadioButton767HelpText"
-                                                           v-model="customMessage"
-                                                           v-bind:value="false">
+                                                           v-model="setup.customMessage"
+                                                           :value="false">
                       <span
                           class="Polaris-RadioButton__Backdrop"></span><span
                           class="Polaris-RadioButton__Icon"></span></span></span><span class="Polaris-Choice__Label">This website uses cookies to ensure you get the best experience on our website.</span></label>
                       <div class="Polaris-Choice__Descriptions">
                         <div class="Polaris-Choice__HelpText" id="RadioButton767HelpText">Customers see this in their
-                          own native language. Automatically translated to EU 24 languages.
+                          own native language. Automatically translated to 10 languages.
                         </div>
                       </div>
                     </div>
@@ -49,8 +49,8 @@
                         class="Polaris-RadioButton"><input id="RadioButton769" name="ChoiceList193" type="radio"
                                                            class="Polaris-RadioButton__Input"
                                                            aria-describedby="RadioButton769HelpText"
-                                                           v-model="customMessage"
-                                                           v-bind:value="true"><span
+                                                           v-model="setup.customMessage"
+                                                           :value="true"><span
                         class="Polaris-RadioButton__Backdrop"></span><span
                         class="Polaris-RadioButton__Icon"></span></span></span><span class="Polaris-Choice__Label">Custom multilanguage text</span></label>
                       <div class="Polaris-Choice__Descriptions">
@@ -59,7 +59,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="Polaris-ChoiceList__ChoiceChildren" v-if="customMessage">
+                    <div class="Polaris-ChoiceList__ChoiceChildren" v-if="setup.customMessage">
                       <table class="Polaris-DataTable__Table">
                         <tbody>
                         <tr class="Polaris-DataTable__TableRow Polaris-DataTable--hoverable">
@@ -71,17 +71,20 @@
                                                                 class="Polaris-Label__Text">Languages</label></div>
                             </div>
                             <div class="Polaris-Select">
-                              <select v-model="language" id="PolarisSelect8" class="Polaris-Select__Input"
-                                      aria-invalid="false">
-                                <option :value="lan" v-for="lan in languages" :key="lan.id">
-                                  {{ lan.value }}
+                              <select v-model="selectedLocale" id="PolarisSelect8" class="Polaris-Select__Input"
+                                      aria-invalid="false" @change="changeContent">
+                                <option v-for="locale in locales" v-bind:value="locale">
+                                  {{ locale.value }}
                                 </option>
                               </select>
-                              <div class="Polaris-Select__Content" aria-hidden="true"><span
-                                  class="Polaris-Select__SelectedOption">{{ language.value }}</span><span
-                                  class="Polaris-Select__Icon"><span
-                                  class="Polaris-Icon"><span class="Polaris-VisuallyHidden"></span><svg
-                                  viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                              <div class="Polaris-Select__Content" aria-hidden="true">
+                                <span class="Polaris-Select__SelectedOption">
+                                    {{ selectedLocale.value }}
+                                </span>
+                                <span
+                                    class="Polaris-Select__Icon"><span
+                                    class="Polaris-Icon"><span class="Polaris-VisuallyHidden"></span><svg
+                                    viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
               <path
                   d="M7.676 9h4.648c.563 0 .879-.603.53-1.014L10.531 5.24a.708.708 0 0 0-1.062 0L7.145 7.986C6.798 8.397 7.113 9 7.676 9zm4.648 2H7.676c-.563 0-.878.603-.53 1.014l2.323 2.746c.27.32.792.32 1.062 0l2.323-2.746c.349-.411.033-1.014-.53-1.014z"></path>
             </svg></span></span></div>
@@ -91,9 +94,12 @@
                           </th>
                           <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">
                             <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--multiline">
-                                <textarea id="PolarisTextField4" autocomplete="off" class="Polaris-TextField__Input"
-                                          aria-labelledby="PolarisTextField4Label" aria-invalid="false"
-                                          aria-multiline="true" style="height: 106px;">
+                              <textarea v-model="setup.content"
+                                        id="PolarisTextField4"
+                                        autocomplete="off"
+                                        class="Polaris-TextField__Input"
+                                        aria-labelledby="PolarisTextField4Label" aria-invalid="false"
+                                        aria-multiline="true" style="height: 106px;">
                                 </textarea>
                               <div class="Polaris-TextField__Backdrop"></div>
                             </div>
@@ -181,6 +187,24 @@
                     <input type="color" v-model="setup.btnColor">
                   </td>
                 </tr>
+                <tr class="Polaris-DataTable__TableRow Polaris-DataTable--hoverable">
+                  <th class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn"
+                      scope="row">
+                    Hover button bacgkorund color
+                  </th>
+                  <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">
+                    <input type="color" v-model="setup.btnHoverBg">
+                  </td>
+                </tr>
+                <tr class="Polaris-DataTable__TableRow Polaris-DataTable--hoverable">
+                  <th class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn"
+                      scope="row">
+                    Hover button text color
+                  </th>
+                  <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">
+                    <input type="color" v-model="setup.btnHoverColor">
+                  </td>
+                </tr>
                 </tbody>
               </table>
             </div>
@@ -188,40 +212,91 @@
         </div>
       </div>
     </div>
+    <div class="Polaris-Stack Polaris-Stack--distributionTrailing" style="margin-bottom: 10px">
+      <div class="Polaris-Stack__Item">
+        <button @click="save" class="Polaris-Button Polaris-Button--primary" type="button"><span
+            class="Polaris-Button__Content"><span
+            class="Polaris-Button__Text">Save</span></span></button>
+      </div>
+    </div>
   </div>
   <div id="PolarisPortalsContainer"></div>
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, computed, ref} from 'vue'
-import {setup, language} from "../../model";
+import {defineComponent, onMounted, ref} from 'vue'
+import {setup, messageTranslation, locale} from "../../model";
 import SetupService from "../../Service/SetupService";
+import {useSetupStore} from "../../store/modules/setup";
 
 export default defineComponent({
-  setup() {
-    const customMessage = ref<boolean>(false)
-    const languages = ref<language[]>([])
-    const language = ref<language>({
+  setup: function () {
+    const selectedLocale = ref<locale>({
       id: 'fr',
       value: 'French'
-    })
+    });
+    const languages = ref<messageTranslation[]>([])
+    const locales = ref<locale[]>([])
     const setup = ref<setup>({} as setup);
+    const setupStore = useSetupStore();
+
+    const save = () => {
+      setupStore.setPageLoading(true);
+      const translateTemp: messageTranslation = {
+        [selectedLocale.value.id]: {
+          title: "hello",
+          content: setup.value.content,
+          locale: selectedLocale.value.id
+        }
+      }
+      const mergeTranlsate = Object.assign(setup.value.translations, translateTemp);
+      /* spread operator */
+      setup.value.translations = {
+        ...mergeTranlsate
+      };
+      SetupService.save(setup.value, "testcookieweb", selectedLocale.value.id).then(value => {
+      }).catch(reason => {
+        console.log(reason)
+      }).finally(() => {
+        setupStore.setPageLoading(false);
+      });
+    }
+
+    const changeContent = () => {
+      if (setup.value.translations[selectedLocale.value.id] !== undefined) {
+        setup.value.content = setup.value.translations[selectedLocale.value.id].content;
+      } else {
+        setup.value.content = "";
+      }
+    }
 
     onMounted(() => {
-      languages.value = [{
-        id: 'fr',
-        value: 'French'
-      },
+      locales.value = [
+        {
+          id: 'fr',
+          value: 'French'
+        },
         {
           id: 'en',
           value: 'English'
         },
         {
-          id: 'sp',
+          id: 'es',
           value: 'Spanish'
+        },
+        {
+          id: 'ru',
+          value: 'Russia'
+        },
+        {
+          id: 'pt',
+          value: 'Portuguese'
+        },
+        {
+          id: 'de',
+          value: 'German'
         }
       ];
-
 
       SetupService.getInfo("testcookieweb").then(value => {
         setup.value = value.data;
@@ -229,7 +304,7 @@ export default defineComponent({
     })
 
     return {
-      languages, language, setup, customMessage
+      languages, setup, save, locales, selectedLocale, changeContent
     }
   }
 })

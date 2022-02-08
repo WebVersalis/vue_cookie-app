@@ -1,10 +1,10 @@
 import {store} from '@/store'
 import {defineStore} from 'pinia'
 import {getLocale} from '@/lang'
-import {app} from "../../model";
+import {setup} from "@/model";
 
-interface AppState {
-    app: app
+interface SetupState {
+    setup: setup
     pageLoading: boolean
     language: string | null
     clientid: string | null
@@ -13,9 +13,9 @@ interface AppState {
     token: string | null
 }
 
-export const useAppStore = defineStore({
-    id: 'app',
-    state: (): AppState => ({
+export const useSetupStore = defineStore({
+    id: 'setup',
+    state: (): SetupState => ({
         pageLoading: false,
         language: getLocale(),
         clientid: localStorage.getItem('clientid'),
@@ -24,7 +24,7 @@ export const useAppStore = defineStore({
         token: localStorage.getItem('token')
     }),
     getters: {
-        getAppg(): app {
+        getSetup(): setup {
             return this.app;
         },
         getPageLoading(): boolean {
@@ -70,7 +70,7 @@ export const useAppStore = defineStore({
             this.token = token;
             localStorage.setItem('token', token)
         },
-        setApp(app: app): void {
+        setSetup(app: setup): void {
             this.app = app;
         }
     }
@@ -78,5 +78,5 @@ export const useAppStore = defineStore({
 
 // Need to be used outside the setup
 export function useAppStoreWidthOut() {
-    return useAppStore(store)
+    return useSetupStore(store)
 }

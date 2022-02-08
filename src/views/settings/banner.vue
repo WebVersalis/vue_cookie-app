@@ -37,14 +37,14 @@
         </div>
         <p>Possibility to choose if it is the default texts that will be displayed to users according to their
           language</p>
-        <div class="row">
+        <div class="row" v-if="setup.customMessage">
           <select v-model="selectedLocale" @change="changeContent">
             <option v-for="locale in locales" v-bind:value="locale">
               {{ locale.value }}
             </option>
           </select>
         </div>
-        <div class="row">
+        <div class="row" v-if="setup.customMessage">
           <textarea v-model="setup.content"></textarea>
         </div>
       </div>
@@ -98,7 +98,7 @@
         <tr>
           <td>button hover background</td>
           <td>
-            <input type="color" v-model="setup.btnHoverColor">
+            <input type="color" v-model="setup.btnHoverBg">
           </td>
         </tr>
         <tr>
@@ -138,18 +138,21 @@ export default defineComponent({
 
     const save = () => {
       setupStore.setPageLoading(true);
-      const translateTemp: messageTranslation = {
-        [selectedLocale.value.id]: {
-          title: "hello",
-          content: setup.value.content,
-          locale: selectedLocale.value.id
+      if (setup.value.content !== undefined && setup.value.content.length !== 0 && setup.value.customMessage) {
+        const translateTemp: messageTranslation = {
+          [selectedLocale.value.id]: {
+            title: "hello",
+            content: setup.value.content,
+            locale: selectedLocale.value.id
+          }
         }
+        const mergeTranlsate = Object.assign(setup.value.translations, translateTemp);
+        /* spread operator */
+        setup.value.translations = {
+          ...mergeTranlsate
+        };
       }
-      const mergeTranlsate = Object.assign(setup.value.translations, translateTemp);
-      /* spread operator */
-      setup.value.translations = {
-        ...mergeTranlsate
-      };
+
       SetupService.save(setup.value, "testcookieweb", selectedLocale.value.id).then(value => {
         setupStore.setPageLoading(false);
       }).catch(reason => {
@@ -160,10 +163,8 @@ export default defineComponent({
     }
 
     const changeContent = () => {
-      if (setup.value.translations[selectedLocale.value.id] !== undefined) {
+      if ('translations' in setup.value && setup.value.translations.hasOwnProperty(selectedLocale.value.id)) {
         setup.value.content = setup.value.translations[selectedLocale.value.id].content;
-      } else {
-        setup.value.content = "";
       }
     }
 

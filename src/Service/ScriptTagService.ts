@@ -1,4 +1,4 @@
-import clientAPI from "./config/AxiosConfig";
+import clientAPI from "./Config/AxiosConfig";
 
 class ScriptTagService {
     public static index(shop: any) {

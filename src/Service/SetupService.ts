@@ -1,5 +1,5 @@
-import clientAPI from "./config/AxiosConfig";
-import {setup} from "../model";
+import clientAPI from "./Config/AxiosConfig";
+import {setup} from "@/model";
 
 class SetupService {
     public static getInfo(shop: any): Promise<any> {

@@ -65,12 +65,12 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, ref, computed} from 'vue'
-import {setup} from "../model";
+import {setup} from "@/model";
 import SetupService from "../Service/SetupService";
-import ScriptTagService from "../Service/ScriptTagService";
+import ScriptTagService from "@/Service/ScriptTagService";
 import disabled from "@/components/disabled.vue";
 import enabled from "@/components/enabled.vue";
-import {useSetupStore} from "../store/modules/setup";
+import {useSetupStore} from "@/store/modules/setup";
 import {useRoute} from 'vue-router';
 
 export default defineComponent({

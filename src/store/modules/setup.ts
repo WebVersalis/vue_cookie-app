@@ -1,7 +1,7 @@
-import {store} from '../index'
+import {store} from '@/store'
 import {defineStore} from 'pinia'
-import {getLocale} from '../../lang'
-import {setup} from "../../model";
+import {getLocale} from '@/lang'
+import {setup} from "@/model";
 
 interface SetupState {
     setup: setup

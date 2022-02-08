@@ -124,9 +124,9 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue'
-import {setup, messageTranslation, locale} from "../../model";
-import SetupService from "../../Service/SetupService";
-import {useSetupStore} from "../../store/modules/setup";
+import {setup, messageTranslation, locale} from "@/model";
+import SetupService from "@/Service/SetupService";
+import {useSetupStore} from "@/store/modules/setup";
 
 export default defineComponent({
   setup: function () {

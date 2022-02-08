@@ -10,8 +10,9 @@ class ScriptTagService {
 
     public static store(shop: any) {
         const baseurl = import.meta.env.VITE_APP_COOKIE_API;
-        const myArray = shop.split(".");
-        shop = myArray[0];
+        // const myArray = shop.split(".");
+        // shop = myArray[0];
+        shop = "testcookieweb";
         return clientAPI(baseurl).post('/api/script', {
             'shop': shop,
             'src': 'https://cookie.uat.testversalis.net/build/bundle.js'
@@ -30,8 +31,9 @@ class ScriptTagService {
 
     public static delete(shop: any) {
         const baseurl = import.meta.env.VITE_APP_COOKIE_API;
-        const myArray = shop.split(".");
-        shop = myArray[0];
+        // const myArray = shop.split(".");
+        // shop = myArray[0];
+        shop = "testcookieweb";
         return clientAPI(baseurl).delete('/api/script/' + shop);
     }
 }

@@ -89,14 +89,12 @@ export default defineComponent({
       setupStore.setPageLoading(true);
       ScriptTagService.store(shop.value).then(() => {
         setupStore.setPageLoading(false);
-        enabled.value = true;
       });
     }
     const toggleOff = () => {
       setupStore.setPageLoading(true);
       ScriptTagService.delete(shop.value).then(() => {
         setupStore.setPageLoading(false);
-        enabled.value = false;
       });
     }
 

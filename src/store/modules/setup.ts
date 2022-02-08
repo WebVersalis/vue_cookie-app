@@ -1,7 +1,7 @@
-import {store} from '@/store'
+import {store} from '../index'
 import {defineStore} from 'pinia'
-import {getLocale} from '@/lang'
-import {setup} from "@/model";
+import {getLocale} from '../../lang'
+import {setup} from "../../model";
 
 interface SetupState {
     setup: setup
@@ -15,17 +15,20 @@ interface SetupState {
 
 export const useSetupStore = defineStore({
     id: 'setup',
-    state: (): SetupState => ({
-        pageLoading: false,
-        language: getLocale(),
-        clientid: localStorage.getItem('clientid'),
-        shop: localStorage.getItem('shop'),
-        code: localStorage.getItem('code'),
-        token: localStorage.getItem('token')
-    }),
+    state: (): SetupState => {
+        return <SetupState>({
+            setup: {} as setup,
+            pageLoading: false,
+            language: getLocale(),
+            clientid: localStorage.getItem('clientid'),
+            shop: localStorage.getItem('shop'),
+            code: localStorage.getItem('code'),
+            token: localStorage.getItem('token')
+        });
+    },
     getters: {
         getSetup(): setup {
-            return this.app;
+            return this.setup;
         },
         getPageLoading(): boolean {
             return this.pageLoading
@@ -71,7 +74,7 @@ export const useSetupStore = defineStore({
             localStorage.setItem('token', token)
         },
         setSetup(app: setup): void {
-            this.app = app;
+            this.setup = app;
         }
     }
 })

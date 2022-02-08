@@ -25,6 +25,7 @@ export interface setup {
     policyUrl: string;
     position: string;
     shop: string;
+    mandatory: boolean;
     enabled: boolean;
     customMessage: boolean;
     translations: messageTranslation
